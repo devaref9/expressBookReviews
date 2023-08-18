@@ -18,7 +18,7 @@ public_users.post("/register", (req, res) => {
   users.push({ username: username, password: password });
   return res
     .status(300)
-    .json({ message: `${username} is registerd successfully!` });
+    .json({ message: `${username} successfully registerd. Now you can login` });
 });
 
 // Get the book list available in the shop
@@ -28,8 +28,7 @@ public_users.get("/", async function (req, res) {
       resolve(books);
     }, 3000);
   });
-  return res.send(JSON.stringify(asyncBooks, null, 4));
-  // return res.status(300).json({ message: "Yet to be implemented" });
+  return res.send(JSON.stringify({ books: asyncBooks }, null, 4));
 });
 
 // Get book details based on ISBN
@@ -41,7 +40,6 @@ public_users.get("/isbn/:isbn", async function (req, res) {
     }, 3000);
   });
   res.send(JSON.stringify(asyncBooks[isbn], null, 4));
-  // return res.status(300).json({ message: "Yet to be implemented" });
 });
 
 // Get book details based on author
@@ -58,12 +56,11 @@ public_users.get("/author/:author", async function (req, res) {
       authorBooks.push(asyncBooks[key]);
     }
   }
-  res.send(JSON.stringify(authorBooks, null, 4));
-  // return res.status(300).json({ message: "Yet to be implemented" });
+  res.send(JSON.stringify({ booksbyauthor: authorBooks }, null, 4));
 });
 
 // Get all books based on title
-public_users.get("/title/:title",async function (req, res) {
+public_users.get("/title/:title", async function (req, res) {
   const title = req.params.title.toLowerCase();
   let asyncBooks = await new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -76,8 +73,7 @@ public_users.get("/title/:title",async function (req, res) {
       titleBooks.push(asyncBooks[key]);
     }
   }
-  res.send(JSON.stringify(titleBooks, null, 4));
-  // return res.status(300).json({ message: "Yet to be implemented" });
+  res.send(JSON.stringify({ booksbytitle: titleBooks }, null, 4));
 });
 
 //  Get book review
